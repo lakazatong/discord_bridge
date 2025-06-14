@@ -1,0 +1,23 @@
+{
+	"name": "discord-bridge",
+	"version": "1.0.0",
+	"pkg": {
+		"scripts": "discord_bridge.js",
+		"assets": [
+			"chromium",
+			"empty.wav",
+			"goulag.wav",
+			"pute.wav"
+		]
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.29.0",
+		"eslint": "^9.29.0",
+		"globals": "^16.2.0",
+		"prettier": "3.5.3"
+	},
+	"dependencies": {
+		"inquirer": "^8.2.6",
+		"play-sound": "^1.1.6"
+	}
+}
