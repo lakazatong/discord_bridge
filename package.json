@@ -4,7 +4,7 @@
 	"bin": "discord_bridge.js",
 	"pkg": {
 		"assets": [
-			"assets/*"
+			"assets.tar"
 		]
 	},
 	"devDependencies": {

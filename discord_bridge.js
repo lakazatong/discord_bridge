@@ -11,12 +11,12 @@ const namesFilePath = path.join(cacheDir, "previous_src_node_names");
 const infoFlagPath = "/tmp/script_info_flag.txt";
 const htmlFilePath = path.join(process.cwd(), "bridge.html");
 
-const assetsFolder = path.join(process.cwd(), "assets");
+const assetsTarPath = path.join(__dirname, "assets.tar");
 
-const chromiumTarPath = path.join(assetsFolder, "chromium.tar");
-const emptyAudioPath = path.join(assetsFolder, "empty.wav");
-const goulagPath = path.join(assetsFolder, "goulag.wav");
-const putePath = path.join(assetsFolder, "pute.wav");
+const chromiumPath = path.join(process.cwd(), "assets", "chromium");
+const emptyAudioPath = path.join(process.cwd(), "assets", "empty.wav");
+const goulagPath = path.join(process.cwd(), "assets", "goulag.wav");
+const putePath = path.join(process.cwd(), "assets", "pute.wav");
 
 const bridgeHtmlContent = `
 <!DOCTYPE html>
@@ -104,17 +104,6 @@ function delay(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function extractChromium() {
-	const chromiumPath = path.join(process.cwd(), "chromium");
-	if (!fs.existsSync(chromiumPath)) {
-		await require("tar").x({
-			file: chromiumTarPath,
-			C: process.cwd(),
-		});
-	}
-	return chromiumPath;
-}
-
 async function waitForNewNode(name, oldNodes) {
 	while (true) {
 		await delay(50);
@@ -129,6 +118,17 @@ async function waitForNewNode(name, oldNodes) {
 //
 
 (async () => {
+	// pkg fix
+
+	if (!fs.existsSync(chromiumPath)) {
+		await require("tar").x({
+			file: assetsTarPath,
+			C: process.cwd(),
+		});
+	}
+
+	//
+
 	const srcNodeNames = await getSrcNodeNames();
 
 	if (srcNodeNames.length === 0) {
@@ -176,8 +176,6 @@ async function waitForNewNode(name, oldNodes) {
 	//
 
 	fs.writeFileSync(htmlFilePath, bridgeHtmlContent, "utf8");
-
-	const chromiumPath = await extractChromium();
 
 	const browserProcess = await spawn(
 		chromiumPath,
