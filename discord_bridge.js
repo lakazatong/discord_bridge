@@ -177,18 +177,30 @@ async function waitForNewNode(name, oldNodes) {
 
 	fs.writeFileSync(htmlFilePath, bridgeHtmlContent, "utf8");
 
-	const browserProcess = await spawn(
-		chromiumPath,
-		[
-			"--headless",
-			"--autoplay-policy=no-user-gesture-required",
-			`file://${htmlFilePath}`,
-		],
-		{
-			detached: true,
-			stdio: "ignore",
-		},
-	);
+	let browserProcess;
+	try {
+		browserProcess = spawn(
+			chromiumPath,
+			[
+				"--headless",
+				"--autoplay-policy=no-user-gesture-required",
+				`file://${htmlFilePath}`,
+			],
+			{
+				detached: true,
+				stdio: "ignore",
+			},
+		);
+
+		if (!browserProcess || browserProcess.pid === undefined) {
+			throw new Error("Spawn failed");
+		}
+	} catch {
+		console.error(
+			"\x1b[31mERROR\x1b[0m: Failed to spawn headless Chromium",
+		);
+		process.exit(1);
+	}
 
 	//
 
