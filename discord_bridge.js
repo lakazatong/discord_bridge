@@ -8,7 +8,7 @@ const cacheDir = path.join(process.env.HOME, '.cache', 'discord_bridge');
 const namesFilePath = path.join(cacheDir, 'previous_src_node_names');
 const infoFlagPath = '/tmp/script_info_flag.txt';
 
-const dirname = process.cwd();
+const dirname = __dirname;
 
 const htmlFilePath = path.join(dirname, 'bridge.html');
 const chromiumPath = path.join(dirname, 'chromium');
