@@ -1,13 +1,10 @@
 {
 	"name": "discord-bridge",
 	"version": "1.0.0",
+	"bin": "discord_bridge.js",
 	"pkg": {
-		"scripts": "discord_bridge.js",
 		"assets": [
-			"chromium",
-			"empty.wav",
-			"goulag.wav",
-			"pute.wav"
+			"assets/*"
 		]
 	},
 	"devDependencies": {
@@ -18,6 +15,7 @@
 	},
 	"dependencies": {
 		"inquirer": "^8.2.6",
-		"play-sound": "^1.1.6"
+		"play-sound": "^1.1.6",
+		"tar": "^7.4.3"
 	}
 }
