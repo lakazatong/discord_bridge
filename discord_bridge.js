@@ -26,7 +26,7 @@ const bridgeHtmlContent = `
 </head>
 <body>
 	<audio id="audio" autoplay loop>
-		<source src="file://${emptyAudioPath}" type="audio/wav">
+		<source src="file://${encodeURI(emptyAudioPath)}" type="audio/wav">
 	</audio>
 </body>
 </html>
@@ -213,7 +213,14 @@ async function waitForNewNode(name, oldNodes) {
 			}),
 		]);
 	} catch {
-		process.kill(browserProcess.pid, "SIGKILL");
+		try {
+			process.kill(browserProcess.pid, 0);
+			process.kill(browserProcess.pid, "SIGKILL");
+		} catch {
+			console.error(
+				`\x1b[38;2;255;165;0mWARNING\x1b[0m: tried to kill Chromium, but was already dead`,
+			);
+		}
 		console.error(
 			"\x1b[31mERROR\x1b[0m: No new Discord capture node found after 4s",
 		);
@@ -268,7 +275,14 @@ async function waitForNewNode(name, oldNodes) {
 
 		await new Promise((resolve) => {
 			setTimeout(() => {
-				process.kill(browserProcess.pid, "SIGKILL");
+				try {
+					process.kill(browserProcess.pid, 0);
+					process.kill(browserProcess.pid, "SIGKILL");
+				} catch {
+					console.error(
+						`\x1b[38;2;255;165;0mWARNING\x1b[0m: tried to kill Chromium, but was already dead`,
+					);
+				}
 				resolve();
 			}, 4000);
 		});
